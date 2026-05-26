@@ -10,6 +10,8 @@ public interface VerifyCodeRepository extends JpaRepository<VerifyCode, Long>{
 
     Optional<VerifyCode> findTopByEmailOrderByExpirationTimeDesc(String email);
 
+    Optional<VerifyCode> findTopByEmailAndEnableTrueOrderByExpirationTimeDesc(String email);
+
     void deleteByEmail(String email);
 
 }

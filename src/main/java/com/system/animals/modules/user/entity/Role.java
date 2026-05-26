@@ -36,7 +36,8 @@ public class Role extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TypeRole name;
 
-    private boolean Enable = true;
+    @Column(nullable = false)
+    private boolean enable = true;
 
     @Override
     public int hashCode() {

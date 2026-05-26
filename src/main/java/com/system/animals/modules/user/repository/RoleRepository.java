@@ -2,6 +2,8 @@ package com.system.animals.modules.user.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -12,6 +14,12 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
 
     Optional<Role> findByName(TypeRole name);
 
+    Optional<Role> findByNameAndEnableTrue(TypeRole name);
+
     boolean existsByName(TypeRole name);
+
+    boolean existsByNameAndEnableTrue(TypeRole name);
+
+    Page<Role> findAllByEnableTrue(Pageable pageable);
 
 }

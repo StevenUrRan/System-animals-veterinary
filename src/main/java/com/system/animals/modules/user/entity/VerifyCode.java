@@ -33,4 +33,7 @@ public class VerifyCode {
 
     @Column(name = "expirationTime")
     private LocalDateTime expirationTime;
+
+    @Column(nullable = false)
+    private boolean enable = true;
 }

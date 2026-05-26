@@ -66,8 +66,8 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(HttpMethod.POST, "/user/users", "/auth/**", "/login", "/send-code").permitAll()
-                        .requestMatchers("/user/**", "/roles/**").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers("/user/users","/user","/user/admin","/roles/**", "/auth/**","/login", "/animals/**","/send-code").permitAll()
+                        // .requestMatchers( "/roles/**").hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) -> {

@@ -3,9 +3,9 @@ package com.system.animals.modules.citation.entity;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import com.system.animals.modules.Veterinary.entity.Veterinary;
 import com.system.animals.modules.animals.entity.Animals;
 import com.system.animals.modules.history.entity.HistoryAnimals;
+import com.system.animals.modules.veterinary.entity.Veterinary;
 import com.system.animals.shared.base.BaseEntity;
 import com.system.animals.shared.enums.TypeState;
 
@@ -48,6 +48,9 @@ public class Citation extends BaseEntity {
 
     @Column(name = "time_date", nullable = false)
     private LocalDateTime timeDate;
+
+    @Column(nullable = false)
+    private boolean enable = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "veterinary_id", nullable = false)

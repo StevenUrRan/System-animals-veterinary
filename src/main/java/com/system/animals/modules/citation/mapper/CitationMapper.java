@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.system.animals.modules.Veterinary.entity.Veterinary;
 import com.system.animals.modules.animals.entity.Animals;
 import com.system.animals.modules.citation.dto.CitationDto;
 import com.system.animals.modules.citation.entity.Citation;
 import com.system.animals.modules.history.entity.HistoryAnimals;
+import com.system.animals.modules.veterinary.entity.Veterinary;
 import com.system.animals.shared.base.MapperSupport;
 
 @Mapper(componentModel = "spring")

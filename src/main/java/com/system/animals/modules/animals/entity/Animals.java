@@ -1,5 +1,6 @@
 package com.system.animals.modules.animals.entity;
 
+import com.system.animals.modules.user.entity.User;
 import com.system.animals.shared.base.BaseEntity;
 import com.system.animals.shared.enums.AnimalGender;
 import com.system.animals.shared.enums.TypeAnimals;
@@ -8,10 +9,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,5 +53,13 @@ public class Animals extends BaseEntity {
 
     @Column(name = "other_type_animals")
     private String otherTypeAnimals;
+
+    @Default
+    @Column(nullable = false)
+    private boolean enable = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }

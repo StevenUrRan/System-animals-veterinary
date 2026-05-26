@@ -29,6 +29,9 @@ public class HistoryAnimals extends BaseEntity {
 
     private String description;
 
+    @Builder.Default
+    private boolean enable = true;
+
     @OneToOne
     @JoinColumn(name = "animals_id")
     private Animals animals;

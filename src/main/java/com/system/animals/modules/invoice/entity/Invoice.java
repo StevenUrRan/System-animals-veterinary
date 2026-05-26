@@ -18,6 +18,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,6 +47,10 @@ public class Invoice extends BaseEntity {
 
     @Column(nullable = false)
     private BigDecimal total;
+
+    @Default
+    @Column(nullable = false)
+    private boolean enable = true;
 
     @OneToMany(mappedBy = "invoice",fetch = FetchType.LAZY)
     private Set<DetailsInvoice> detailsInvoices;
