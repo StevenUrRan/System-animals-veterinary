@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         if (pageable == null || !pageable.isPaged()) {
             throw new PageableNotFountException();
         }
-        Page<User> toUserEntity = userRepository.findAll(pageable);
+        Page<User> toUserEntity = userRepository.findAllByEnableTrue(pageable);
         return toUserEntity.map(user -> new UserResponseDto(
                 user.getUsernam(),
                 user.getEmail(),
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserResponseDto findByNit(Long nit) {
 
-        User userNit = userRepository.findByNit(nit)
+        User userNit = userRepository.findByNitAndEnableTrue(nit)
                 .orElseThrow(NitNotFoundException::new);
         return userMapper.toDto(userNit);
     }
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserResponseDto findByEmail(String email) {
 
-        User userEmail = userRepository.findByEmail(email)
+        User userEmail = userRepository.findByEmailAndEnableTrue(email)
                 .orElseThrow(EmailNotFoundException::new);
         return userMapper.toDto(userEmail);
     }
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseDto update(UserUpdateDto updateDto, Long nit) {
 
-        User user = userRepository.findByNit(nit).orElseThrow(NitNotFoundException::new);
+        User user = userRepository.findByNitAndEnableTrue(nit).orElseThrow(NitNotFoundException::new);
 
         if (!user.getEmail().equals(updateDto.email()) && userRepository.existsByEmail(updateDto.email())) {
             throw new EmailExistException();
@@ -142,12 +142,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUser(Long nit) {
-        User user = userRepository.findByNit(nit)
+        User user = userRepository.findByNitAndEnableTrue(nit)
                 .orElseThrow(NitNotFoundException::new);
-
-        if (!user.isEnable()) {
-            throw new UserNotEnableException();
-        }
         user.setEnable(false);
         userRepository.save(user);
     }
