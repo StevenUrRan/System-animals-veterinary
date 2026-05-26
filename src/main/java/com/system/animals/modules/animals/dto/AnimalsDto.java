@@ -1,5 +1,7 @@
 package com.system.animals.modules.animals.dto;
 
+import com.system.animals.exception.valid.AnimalsNitExist;
+import com.system.animals.modules.user.dto.UserResponseDto;
 import com.system.animals.shared.enums.AnimalGender;
 import com.system.animals.shared.enums.TypeAnimals;
 
@@ -26,12 +28,17 @@ public record AnimalsDto(
         @NotNull(message = "{animal.type.not-null}")
         TypeAnimals type,
 
+        @AnimalsNitExist
         @NotNull(message = "{animal.nit.not-null}")
         @Min(value = 1000000000L, message = "{animal.nit.min}")
         @Max(value = 9999999999L, message = "{animal.nit.max}")
         Long nit,
 
         @Size(max = 100, message = "{animal.other-type.size}")
-        String otherTypeAnimals) {
+        String otherTypeAnimals,
+
+        @NotNull(message = "{animal.user.not-null}")
+        UserResponseDto userDto) {
+
 
 }
