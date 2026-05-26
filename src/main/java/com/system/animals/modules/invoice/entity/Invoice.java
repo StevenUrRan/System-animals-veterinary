@@ -1,0 +1,56 @@
+package com.system.animals.modules.invoice.entity;
+
+import java.math.BigDecimal;
+import java.util.Set;
+
+import com.system.animals.modules.user.entity.User;
+import com.system.animals.shared.base.BaseEntity;
+import com.system.animals.shared.enums.PaymentMethod;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "invoice")
+@Entity
+public class Invoice extends BaseEntity {
+
+    @Column(nullable = false)
+    private Long code;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "paymentMethod", nullable = false)
+    private PaymentMethod paymentMethod;
+
+    @Column(name = "sub_total", nullable = false)
+    private BigDecimal subTotal;
+
+    @Column(nullable = false)
+    private BigDecimal iva;
+
+    @Column(nullable = false)
+    private BigDecimal total;
+
+    @OneToMany(mappedBy = "invoice",fetch = FetchType.LAZY)
+    private Set<DetailsInvoice> detailsInvoices;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "users_id")
+    private User user;
+}
