@@ -54,6 +54,11 @@ public class GlobalErrorException {
         return buildResponse("exception.user.not-enable", HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserNotVeterinaryException.class)
+    public ResponseEntity<?> userNotVeterinaryException(RuntimeException e) {
+        return buildResponse("exception.user.not-veterinary", HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(PageableNotFountException.class)
     public ResponseEntity<?> pageableNotFountException(RuntimeException e) {
         return buildResponse("exception.pageable.not-found", HttpStatus.BAD_REQUEST);
@@ -67,6 +72,16 @@ public class GlobalErrorException {
     @ExceptionHandler(RoleExistException.class)
     public ResponseEntity<?> roleExistException(RuntimeException e) {
         return buildResponse("exception.role.exists", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(VeterinaryNotFoundException.class)
+    public ResponseEntity<?> veterinaryNotFoundException(RuntimeException e) {
+        return buildResponse("exception.veterinary.not-found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(VeterinaryExistException.class)
+    public ResponseEntity<?> veterinaryExistException(RuntimeException e) {
+        return buildResponse("exception.veterinary.exists", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(RateLimitExceededException.class)
