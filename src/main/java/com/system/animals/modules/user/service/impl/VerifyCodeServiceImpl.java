@@ -54,6 +54,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     private final Map<String, Deque<LocalDateTime>> codeRequestHistory = new ConcurrentHashMap<>();
 
     @Override
+    @Transactional(readOnly = true)
     public String generateCode() {
         return String.valueOf(100000 + RANDOM.nextInt(900000));
     }

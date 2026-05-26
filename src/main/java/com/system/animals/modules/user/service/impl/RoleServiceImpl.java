@@ -3,6 +3,7 @@ package com.system.animals.modules.user.service.impl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.system.animals.exception.PageableNotFountException;
 import com.system.animals.exception.RoleExistException;
@@ -24,6 +25,7 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMapper roleMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<RoleDto> findAll(Pageable pageable) {
         if (pageable == null || !pageable.isPaged()) {
             throw new PageableNotFountException();
@@ -35,6 +37,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleDto newRole(RoleDto roleDto) {
 
         if (roleRepository.existsByName(roleDto.name())) {
@@ -50,6 +53,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleDto updateRole(RoleDto roleDto, TypeRole name) {
         Role role = roleRepository.findByName(name).orElseThrow(RoleNotFoundException::new);
 
@@ -60,6 +64,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public void deleteRole(TypeRole name) {
         Role role = roleRepository.findByName(name).orElseThrow(RoleNotFoundException::new);
 
