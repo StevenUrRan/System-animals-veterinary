@@ -7,7 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.system.animals.modules.invoice.dto.InvoiceDto;
+import com.system.animals.modules.invoice.dto.InvoiceRequestDto;
+import com.system.animals.modules.invoice.dto.InvoiceResponseDto;
 import com.system.animals.modules.invoice.entity.DetailsInvoice;
 import com.system.animals.modules.invoice.entity.Invoice;
 import com.system.animals.modules.user.entity.User;
@@ -17,16 +18,18 @@ import com.system.animals.shared.base.MapperSupport;
 public interface InvoiceMapper {
 
     @Mapping(target = "user", source = "userId")
-    Invoice toEntity(InvoiceDto invoiceDto);
+    @Mapping(target = "enable", ignore = true)
+    Invoice toEntity(InvoiceRequestDto invoiceDto);
 
     @Mapping(target = "userId", source = "user.id")
-    InvoiceDto toDto(Invoice invoice);
+    InvoiceResponseDto toDto(Invoice invoice);
 
-    default User mapUserId(Long userId) {
+    default User mapUserIdToUser(Long userId) {
         if (userId == null) {
             return null;
         }
-        return MapperSupport.withId(User.builder().build(), userId);
+        User user = User.builder().build();
+        return MapperSupport.withId(user, userId);
     }
 
     @AfterMapping

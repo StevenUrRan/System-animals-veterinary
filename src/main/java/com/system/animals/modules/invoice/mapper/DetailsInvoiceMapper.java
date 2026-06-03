@@ -10,6 +10,7 @@ import com.system.animals.modules.invoice.entity.DetailsInvoice;
 public interface DetailsInvoiceMapper {
 
     @Mapping(target = "invoice", ignore = true)
+    @Mapping(target = "enable", ignore = true)
     DetailsInvoice toEntity(DetailsInvoiceDto detailsInvoiceDto);
 
     DetailsInvoiceDto toDto(DetailsInvoice detailsInvoice);

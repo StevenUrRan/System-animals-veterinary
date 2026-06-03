@@ -3,6 +3,7 @@ package com.system.animals.modules.invoice.dto;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import com.system.animals.shared.enums.InvoiceStatus;
 import com.system.animals.shared.enums.PaymentMethod;
 
 import jakarta.validation.Valid;
@@ -12,11 +13,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public record InvoiceDto(
-
-        @NotNull(message = "{invoice.code.not-null}")
-        @Positive(message = "{invoice.code.positive}")
-        Long code,
+public record InvoiceRequestDto(
 
         @NotNull(message = "{invoice.payment-method.not-null}")
         PaymentMethod paymentMethod,
@@ -36,13 +33,20 @@ public record InvoiceDto(
         @Digits(integer = 12, fraction = 2, message = "{invoice.total.digits}")
         BigDecimal total,
 
+        @NotNull
+        InvoiceStatus invoiceStatus,
+
         @Valid
         @NotEmpty(message = "{invoice.details.not-empty}")
         Set<DetailsInvoiceDto> detailsInvoices,
 
         @NotNull(message = "{invoice.user-id.not-null}")
         @Positive(message = "{invoice.user-id.positive}")
-        Long userId
+        Long userId,
+
+        @NotNull
+        @Positive
+        Long citationId
     ) {
 
 }
