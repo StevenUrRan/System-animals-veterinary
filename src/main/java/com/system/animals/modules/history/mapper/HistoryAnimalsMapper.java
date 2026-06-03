@@ -16,12 +16,11 @@ import com.system.animals.shared.base.MapperSupport;
 @Mapper(componentModel = "spring")
 public interface HistoryAnimalsMapper {
 
-    @Mapping(target = "description", source = "background")
     @Mapping(target = "animals", source = "animalId")
     @Mapping(target = "citations", source = "citationIds")
+    @Mapping(target = "enable", ignore = true)
     HistoryAnimals toEntity(HistoryAnimalsDto historyAnimalsDto);
 
-    @Mapping(target = "background", source = "description")
     @Mapping(target = "animalId", source = "animals.id")
     @Mapping(target = "citationIds", source = "citations")
     HistoryAnimalsDto toDto(HistoryAnimals historyAnimals);
@@ -30,7 +29,7 @@ public interface HistoryAnimalsMapper {
         if (animalId == null) {
             return null;
         }
-        return MapperSupport.withId(new Animals(), animalId);
+        return MapperSupport.withId(Animals.builder().build(), animalId);
     }
 
     default Set<Citation> mapCitationIds(Set<Long> citationIds) {

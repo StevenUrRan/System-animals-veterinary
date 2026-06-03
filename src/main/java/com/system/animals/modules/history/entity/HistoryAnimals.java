@@ -6,6 +6,7 @@ import com.system.animals.modules.animals.entity.Animals;
 import com.system.animals.modules.citation.entity.Citation;
 import com.system.animals.shared.base.BaseEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -27,6 +28,7 @@ import lombok.Setter;
 @Entity
 public class HistoryAnimals extends BaseEntity {
 
+    @Column(nullable = false)
     private String description;
 
     @Builder.Default

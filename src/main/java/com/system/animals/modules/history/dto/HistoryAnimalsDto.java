@@ -6,17 +6,20 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 
+@Builder
 public record HistoryAnimalsDto(
 
-        @NotBlank(message = "{history.background.not-blank}")
-        @Size(min = 8, max = 100, message = "{history.background.size}")
-        String background,
+        @NotBlank(message = "{history.background.not-blank}") 
+        @Size(min = 8, max = 100, message = "{history.background.size}") 
+        String description,
 
-        @NotNull(message = "{history.animal-id.not-null}")
-        @Positive(message = "{history.animal-id.positive}")
+        @NotNull(message = "{history.animal-id.not-null}") 
+        @Positive(message = "{history.animal-id.positive}") 
         Long animalId,
 
-        Set<@Positive(message = "{history.citation-id.positive}") Long> citationIds) {
+        Set<@Positive(message = "{history.citation-id.positive}") Long> citationIds
+    ) {
 
 }

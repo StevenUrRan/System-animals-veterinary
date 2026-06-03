@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.system.animals.modules.history.entity.HistoryAnimals;
 
 @Repository
-public interface HistoryRepository
+public interface HistoryAnimalsRepository
         extends JpaRepository<HistoryAnimals, Long>, JpaSpecificationExecutor<HistoryAnimals> {
 
     Optional<HistoryAnimals> findByAnimalsId(Long animalId);
