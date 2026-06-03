@@ -14,11 +14,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
 
-@Builder
-public record CitationDto(
-
+public record CitationCreateDto(
         Long codeUnique,
 
         @NotBlank(message = "{citation.reason.not-blank}")
@@ -38,14 +35,11 @@ public record CitationDto(
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime timeDate,
 
-        @NotNull(message = "{citation.veterinary-id.not-null}")
-        @Positive(message = "{citation.veterinary-id.positive}")
-        Long veterinaryId,
-
         @NotEmpty(message = "{citation.animals.not-empty}")
         Set<@Positive(message = "{citation.animal-id.positive}") Long> animalIds,
 
         @Positive(message = "{citation.history-id.positive}")
-        Long historyAnimalsId) {
+        Long historyAnimalsId)
+{
 
 }

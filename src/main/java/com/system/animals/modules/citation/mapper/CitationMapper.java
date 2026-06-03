@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.system.animals.modules.animals.entity.Animals;
+import com.system.animals.modules.citation.dto.CitationCreateDto;
 import com.system.animals.modules.citation.dto.CitationDto;
 import com.system.animals.modules.citation.entity.Citation;
 import com.system.animals.modules.history.entity.HistoryAnimals;
@@ -20,7 +21,16 @@ public interface CitationMapper {
     @Mapping(target = "veterinary", source = "veterinaryId")
     @Mapping(target = "animals", source = "animalIds")
     @Mapping(target = "historyAnimals", source = "historyAnimalsId")
+    @Mapping(target = "enable", ignore = true)
+    @Mapping(target = "codeUnique", ignore = true)
     Citation toEntity(CitationDto citationDto);
+
+    @Mapping(target = "animals", source = "animalIds")
+    @Mapping(target = "historyAnimals", source = "historyAnimalsId")
+    @Mapping(target = "enable", ignore = true)
+    @Mapping(target = "codeUnique", ignore = true)
+    @Mapping(target = "veterinary", ignore = true)
+    Citation toEntityVeterinary(CitationCreateDto citationDto);
 
     @Mapping(target = "veterinaryId", source = "veterinary.id")
     @Mapping(target = "animalIds", source = "animals")

@@ -7,6 +7,7 @@ import com.system.animals.modules.animals.entity.Animals;
 import com.system.animals.modules.history.entity.HistoryAnimals;
 import com.system.animals.modules.veterinary.entity.Veterinary;
 import com.system.animals.shared.base.BaseEntity;
+import com.system.animals.shared.enums.AppointmentSlot;
 import com.system.animals.shared.enums.TypeState;
 
 import jakarta.persistence.Column;
@@ -36,6 +37,9 @@ import lombok.Setter;
 })
 public class Citation extends BaseEntity {
 
+    @Column(name = "code_unique", nullable = false, unique = true)
+    private Long codeUnique;
+
     @Column(nullable = false)
     private String reason;
 
@@ -49,7 +53,9 @@ public class Citation extends BaseEntity {
     @Column(name = "time_date", nullable = false)
     private LocalDateTime timeDate;
 
+
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private boolean enable = true;
 
     @ManyToOne(fetch = FetchType.LAZY)

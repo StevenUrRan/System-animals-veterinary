@@ -2,6 +2,8 @@ package com.system.animals.modules.citation.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,8 +31,18 @@ public interface CitationRepository extends JpaRepository<Citation, Long>, JpaSp
 
     List<Citation> findByTimeDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
+    Set<Citation> findByCodeUniqueInAndEnableTrue(Set<Long> codesUnique);
+
+    Optional<Citation> findByCodeUniqueAndEnableTrue(Long code);
+
     List<Citation> findByTimeDateBetweenAndEnableTrue(LocalDateTime startDate, LocalDateTime endDate);
 
+    Optional<Citation> findByAnimalsIdAndEnableTrue(Long animalId);
+
     Page<Citation> findAllByEnableTrue(Pageable pageable);
+
+    boolean existsByVeterinaryIdAndDateAndTimeAndEnableTrue(Long veterinaryId, LocalDateTime time);
+
+    boolean existsByCodeUnique(Long codeUnique);
 
 }
