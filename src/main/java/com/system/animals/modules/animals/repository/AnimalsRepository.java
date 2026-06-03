@@ -36,4 +36,6 @@ public interface AnimalsRepository extends JpaRepository<Animals, Long>, JpaSpec
 
     Page<Animals> findAllByEnableTrue(Pageable pageable);
 
+    boolean existsByNitAndEnableTrue(Long nit);
+
 }

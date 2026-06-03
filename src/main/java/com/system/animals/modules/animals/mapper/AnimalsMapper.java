@@ -12,6 +12,7 @@ import com.system.animals.modules.user.mapper.UserMapper;
 public interface AnimalsMapper {
 
     @Mapping(target = "user", ignore = true)
+    @Mapping(target = "enable", ignore = true)
     Animals toEntity(AnimalsDto animalsDto);
 
     @Mapping(target = "userDto", source = "user")
@@ -19,6 +20,7 @@ public interface AnimalsMapper {
 
     @Mapping(target = "nit", ignore = true)
     @Mapping(target = "user", ignore = true)
+    @Mapping(target = "enable", ignore = true)
     void updateEntityFromDto(AnimalsDto animalsDto, @MappingTarget Animals animals);
 
 }
