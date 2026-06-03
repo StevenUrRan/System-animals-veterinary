@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,7 +52,8 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetaislService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetaislService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
@@ -66,7 +66,9 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/user/users","/user","/user/admin","/roles/**", "/auth/**","/login", "/animals/**","/send-code").permitAll()
+                        .requestMatchers("/user/users", "/user", "/user/admin", "/roles/**", "/auth/**", "/login",
+                                "/animals/**", "/send-code")
+                        .permitAll()
                         // .requestMatchers( "/roles/**").hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
