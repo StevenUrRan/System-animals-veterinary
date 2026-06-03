@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         }
         Page<User> toUserEntity = userRepository.findAllByEnableTrue(pageable);
         return toUserEntity.map(user -> new UserResponseDto(
-                user.getUsernam(),
+                user.getUsername(),
                 user.getEmail(),
                 user.getNit(),
                 user.getDocument(),
@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
 
         user.setEmail(updateDto.email());
         user.setPassword(passwordEncoder.encode(updateDto.password()));
-        user.setUsernam(updateDto.usernam());
+        user.setUsername(updateDto.username());
 
         User save = userRepository.save(user);
         return userMapper.toDto(save);

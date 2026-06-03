@@ -34,6 +34,7 @@ public class VerifyCode {
     @Column(name = "expirationTime")
     private LocalDateTime expirationTime;
 
+    @Builder.Default
     @Column(nullable = false)
     private boolean enable = true;
 }

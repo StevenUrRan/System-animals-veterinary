@@ -35,7 +35,7 @@ import lombok.Setter;
 public class User extends BaseEntity {
 
     @Column(nullable = false, length = 80)
-    private String usernam;
+    private String username;
 
     @Column(nullable = false, length = 80, unique = true)
     private String email;

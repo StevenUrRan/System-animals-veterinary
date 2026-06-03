@@ -8,7 +8,7 @@ import lombok.Builder;
 @Builder
 public record UserResponseDto(
 
-                String usernam,
+                String username,
 
                 String email,
 

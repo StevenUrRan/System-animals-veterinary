@@ -12,7 +12,6 @@ import com.system.animals.modules.user.entity.User;
 public interface UserMapper{
 
 
-    @Mapping(target = "usernam", source = "username")
     @Mapping(target = "enable", ignore = true)
     @Mapping(target = "role", ignore = true)
     User toEntity(UserRequestDto userDto);
@@ -23,7 +22,6 @@ public interface UserMapper{
  
     UserResponseDto toDto(User user);
 
-    @Mapping(target = "usernam", source = "username")
     @Mapping(target = "nit", ignore = true)
     @Mapping(target = "document", ignore = true)
     @Mapping(target = "enable", ignore = true)

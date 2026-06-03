@@ -18,8 +18,8 @@ import lombok.Builder;
 @Builder
 public record UserRequestDto(
 
-        @NotBlank(message = "{user.usernam.not-blank}")
-        @Size(min = 8, max = 50, message = "{user.usernam.size}")
+        @NotBlank(message = "{user.username.not-blank}")
+        @Size(min = 8, max = 50, message = "{user.username.size}")
         String username,
 
         @UserEmailExist(message = "{user.email.exists}")

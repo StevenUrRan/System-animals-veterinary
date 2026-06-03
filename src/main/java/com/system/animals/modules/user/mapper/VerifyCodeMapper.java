@@ -12,6 +12,7 @@ public interface VerifyCodeMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "expirationTime", ignore = true)
     @Mapping(target = "code", ignore = true)
+    @Mapping(target = "enable", ignore = true)
     VerifyCode toEntity(SendCodeRequest request);
 
     SendCodeRequest toDto(VerifyCode code);

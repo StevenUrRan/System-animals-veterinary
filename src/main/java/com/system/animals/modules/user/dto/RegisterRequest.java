@@ -15,9 +15,9 @@ import jakarta.validation.constraints.Size;
 
 public record RegisterRequest(
 
-        @NotBlank(message = "{user.usernam.not-blank}")
-        @Size(min = 8, max = 50, message = "{user.usernam.size}")
-        String usernam,
+        @NotBlank(message = "{user.username.not-blank}")
+        @Size(min = 8, max = 50, message = "{user.username.size}")
+        String username,
 
         @UserEmailExist(message = "{user.email.exists}")
         @NotBlank(message = "{user.email.not-blank}")
