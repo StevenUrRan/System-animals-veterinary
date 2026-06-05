@@ -14,7 +14,6 @@ import com.system.animals.exception.EmailNotFoundException;
 import com.system.animals.exception.NitNotFoundException;
 import com.system.animals.exception.PageableNotFountException;
 import com.system.animals.exception.RoleNotFoundException;
-import com.system.animals.exception.UserNotEnableException;
 import com.system.animals.modules.user.dto.UserRequestDto;
 import com.system.animals.modules.user.dto.UserResponseDto;
 import com.system.animals.modules.user.dto.UserUpdateDto;

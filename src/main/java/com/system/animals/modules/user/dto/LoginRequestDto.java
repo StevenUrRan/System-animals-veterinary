@@ -18,10 +18,10 @@ public record LoginRequestDto(
 
         @NotBlank(message = "{user.password.not-blank}")
         @Size(min = 8, max = 100, message = "{user.password.size}")
-        @Pattern(
-        regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_]).*$",
-        message = "{user.password.pattern}"
-        )
+        // @Pattern(
+        // regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_]).*$",
+        // message = "{user.password.pattern}"
+        // )
         String password) {
 
 }

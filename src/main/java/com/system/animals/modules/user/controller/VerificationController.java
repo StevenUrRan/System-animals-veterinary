@@ -1,7 +1,11 @@
 package com.system.animals.modules.user.controller;
 
+import java.util.Locale;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -23,7 +27,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,6 +36,7 @@ public class VerificationController {
 
     private final VerifyCodeService verificationService;
     private final ValidationResult validationResult;
+    private final MessageSource messageSource;
 
     @Value("${controller.verification.register.success}")
     private String registerSuccessMessage;
@@ -109,12 +113,15 @@ public class VerificationController {
                 request.email(),
                 request.code());
 
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = messageSource.getMessage(verifyCodeResult.getMessageKey(), null, locale);
+
         return switch (verifyCodeResult) {
-            case VERIFIED -> ResponseEntity.ok(response(verifyCodeResult.getMessage()));
+            case VERIFIED -> ResponseEntity.ok(response(message));
             case CODE_NOT_FOUND, USER_NOT_FOUND -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(response(verifyCodeResult.getMessage()));
+                    .body(response(message));
             case CODE_EXPIRED, CODE_INVALID -> ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(response(verifyCodeResult.getMessage()));
+                    .body(response(message));
         };
     }
 

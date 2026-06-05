@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.system.animals.exception.EmailNotFoundException;
 import com.system.animals.exception.RateLimitExceededException;
 import com.system.animals.exception.RoleNotFoundException;
+import com.system.animals.exception.UserAlreadyVerifiedException;
 import com.system.animals.modules.user.dto.RegisterRequest;
 import com.system.animals.modules.user.entity.Role;
 import com.system.animals.modules.user.entity.User;
@@ -84,7 +85,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
                 .orElseThrow(EmailNotFoundException::new);
 
         if (user.isEnable()) {
-            throw new IllegalStateException("El usuario ya esta verificado");
+            throw new UserAlreadyVerifiedException();
         }
 
         checkRateLimit(email);

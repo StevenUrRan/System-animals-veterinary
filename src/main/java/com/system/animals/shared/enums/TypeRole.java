@@ -15,7 +15,6 @@ public enum TypeRole {
     private final String displayName;
     private final String description;
 
-    // Constructor del Enum
     TypeRole(String displayName, String description) {
         this.displayName = displayName;
         this.description = description;

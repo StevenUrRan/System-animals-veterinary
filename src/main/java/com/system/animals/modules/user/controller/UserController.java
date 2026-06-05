@@ -28,7 +28,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 @RestController
 @RequestMapping("/user")
@@ -39,8 +38,6 @@ public class UserController {
 
     private final UserService userService;
     private final ValidationResult validationResult;
-
-
 
     @Operation(summary = "Listar todos los usuarios", description = "Retorna la lista de todos los usuarios registrados. Requiere rol ADMIN.")
     @ApiResponses(value = {
