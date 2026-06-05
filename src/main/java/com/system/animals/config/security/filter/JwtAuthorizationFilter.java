@@ -5,10 +5,10 @@ import static com.system.animals.config.security.filter.StaticVaribleFilter.BEAR
 
 import java.io.IOException;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.system.animals.config.security.service.CustomUserDetaislService;
@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
-@Component
 @Slf4j
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
@@ -72,6 +71,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             log.error("Error durante validación de token: {}", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getWriter().write("{\"Message\": \"Token inválido o expirado\"}");
+            return;
         }
 
         log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");

@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.system.animals.exception.InvalidJwtKeyException;
+import com.system.animals.exception.JwtKeyNotLoadedException;
+import com.system.animals.exception.TokenValidationException;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -27,11 +31,11 @@ public class JwtService {
     private SecretKey getSecretKey() {
 
         if (secreKey == null || secreKey.isBlank()) {
-            throw new RuntimeException("La llave no fue cargada");
+            throw new JwtKeyNotLoadedException();
         }
         byte[] keyBytes = secreKey.getBytes(StandardCharsets.UTF_8);
         if (keyBytes.length < 32) {
-            throw new RuntimeException("La llave tiene que tener como minimo 32 bist");
+            throw new InvalidJwtKeyException();
         }
         return Keys.hmacShaKeyFor(keyBytes);
 
@@ -65,7 +69,7 @@ public class JwtService {
             return claims;
         } catch (Exception e) {
             log.error("Token no valido");
-            throw new RuntimeException("Token invalido o expirado");
+            throw new TokenValidationException();
         }
     }
 
