@@ -1,6 +1,5 @@
 package com.system.animals.modules.invoice.service.impl;
 
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,6 +26,7 @@ import com.system.animals.modules.invoice.service.InvoiceService;
 import com.system.animals.modules.user.entity.User;
 import com.system.animals.modules.user.repository.UserRepository;
 import com.system.animals.shared.enums.InvoiceStatus;
+import com.system.animals.shared.utils.CodeGenerator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,10 +40,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final DetailsInvoiceMapper detailsInvoiceMapper;
     private final UserRepository userRepository;
     private final CitationRepository citationRepository;
-    private final Random random;
-
-    private Long code;
-    private boolean active;
+    private final CodeGenerator codeGenerator;
 
     @Override
     @Transactional(readOnly = true)
@@ -75,11 +72,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         Set<DetailsInvoice> details = invoiceDto.detailsInvoices().stream().map(detailsInvoiceMapper::toEntity)
                 .collect(Collectors.toSet());
 
+        Long code;
+        boolean exist;
         do {
-            code = 100000000 + random.nextLong(900000000);
-            active = citationRepository.existsByCodeUnique(code);
-
-        } while (active);
+            code = codeGenerator.generateUniqueCode();
+            exist = invoiceRepository.existsByCode(code);
+        } while (exist);
 
         Invoice invoice = invoiceMapper.toEntity(invoiceDto);
         invoice.setDetailsInvoices(details);
@@ -98,8 +96,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Invoice invoice = invoiceRepository.findByCodeAndEnableTrue(code)
                 .orElseThrow(InvoiceNotFoundException::new);
 
-        invoice.getInvoiceStatus();
-        if (invoice.getInvoiceStatus().equals(invoiceStatus) || invoiceStatus.equals(InvoiceStatus.PAID)) {
+        if (invoice.getInvoiceStatus().equals(invoiceStatus)) {
             throw new StatusInvoiceInvalidException();
         }
 
