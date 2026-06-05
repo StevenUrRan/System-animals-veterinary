@@ -9,8 +9,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -42,6 +42,11 @@ public class GlobalErrorException {
     @ExceptionHandler(NitNotFoundException.class)
     public ResponseEntity<?> nitNotFoundException(RuntimeException e) {
         return buildResponse("exception.nit.not-found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(HistoryAnimalsNotFoundException.class)
+    public ResponseEntity<?> historyAnimalsNotFoundException(RuntimeException e) {
+        return buildResponse("exception.history.not-found", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
@@ -89,12 +94,34 @@ public class GlobalErrorException {
         return buildResponse("exception.rate-limit", HttpStatus.TOO_MANY_REQUESTS);
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<?> illegalStateException(RuntimeException e) {
-        Map<String, Object> errors = new HashMap<>();
-        errors.put("Message", e.getMessage());
+    @ExceptionHandler(JwtKeyNotLoadedException.class)
+    public ResponseEntity<?> jwtKeyNotLoadedException(RuntimeException e) {
+        return buildResponse("exception.jwt.key.not-loaded", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    @ExceptionHandler(InvalidJwtKeyException.class)
+    public ResponseEntity<?> invalidJwtKeyException(RuntimeException e) {
+        return buildResponse("exception.jwt.key.invalid", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(TokenValidationException.class)
+    public ResponseEntity<?> tokenValidationException(RuntimeException e) {
+        return buildResponse("exception.jwt.token.invalid", HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidCodeLengthException.class)
+    public ResponseEntity<?> invalidCodeLengthException(RuntimeException e) {
+        return buildResponse("exception.code.invalid-length", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CodeRangeInvalidException.class)
+    public ResponseEntity<?> codeRangeInvalidException(RuntimeException e) {
+        return buildResponse("exception.code.range-invalid", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserAlreadyVerifiedException.class)
+    public ResponseEntity<?> userAlreadyVerifiedException(RuntimeException e) {
+        return buildResponse("exception.user.already-verified", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AuthenticationException.class)
@@ -151,6 +178,62 @@ public class GlobalErrorException {
     @ExceptionHandler({ NoHandlerFoundException.class, NoResourceFoundException.class })
     public ResponseEntity<?> notFoundException(Exception e) {
         return buildResponse("exception.not-found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AnimalsNotFoundException.class)
+    public ResponseEntity<?> animalsNotFoundException(RuntimeException e) {
+        return buildResponse("exception.animals.not-found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AnimalsNitExistException.class)
+    public ResponseEntity<?> animalsNitExistException(RuntimeException e) {
+        return buildResponse("exception.animals-nit.exists", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(DayNotFoundException.class)
+    public ResponseEntity<?> dayNotFoundException(RuntimeException e) {
+        return buildResponse("exception.day.not-found", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SaturdayException.class)
+    public ResponseEntity<?> saturdayException(RuntimeException e) {
+        return buildResponse("exception.day.saturday", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NonBusinessDayException.class)
+    public ResponseEntity<?> nonBusinessDayException(RuntimeException e) {
+        return buildResponse("exception.day.non-business", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HistoryAlreadyExistsException.class)
+    public ResponseEntity<?> historyAlreadyExistsException(RuntimeException e) {
+        return buildResponse("exception.history.already-exists", HttpStatus.CONFLICT);
+    }
+
+
+    @ExceptionHandler(SlotInvalidException.class)
+    public ResponseEntity<?> slotInvalidException(RuntimeException e) {
+        return buildResponse("exception.slot.invalid", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvoiceNotFoundException.class)
+    public ResponseEntity<?> invoiceNotFoundException(RuntimeException e) {
+        return buildResponse("exception.invoice.not-found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CitationNotFoundException.class)
+    public ResponseEntity<?> citationNotFoundException(RuntimeException e) {
+        return buildResponse("exception.citation.not-found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(StatusInvoiceInvalidException.class)
+    public ResponseEntity<?> statusInvoiceInvalidException(RuntimeException e) {
+        return buildResponse("exception.status-invoice.invalid", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ValueDuplicateException.class)
+    public ResponseEntity<?> valueDuplicateException(RuntimeException e) {
+        return buildResponse("exception.value.duplicate", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)
