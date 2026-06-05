@@ -1,11 +1,30 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: animals_db
+      POSTGRES_USER: animals_user
+      POSTGRES_PASSWORD: animals_pass
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
   systemanimals:
     image: systemanimals
     build:
       context: .
       dockerfile: ./Dockerfile
+    depends_on:
+      - postgres
     environment:
       JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005,quiet=y
+      DB_URL: jdbc:postgresql://postgres:5432/animals_db
+      DB_USERNAME: animals_user
+      DB_PASSWORD: animals_pass
     ports:
       - 8080:8080
       - 5005:5005
+
+volumes:
+  postgres-data:
