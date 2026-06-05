@@ -1,14 +1,25 @@
 package com.system.animals;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ActiveProfiles;
 
+@SpringBootTest
+@ActiveProfiles("test")
 class SystemAnimalsApplicationTests {
+
+	private final ApplicationContext context;
+
+	SystemAnimalsApplicationTests(ApplicationContext context) {
+		this.context = context;
+	}
 
 	@Test
 	void contextLoads() {
-		assertDoesNotThrow(SystemAnimalsApplication::new);
+		assertThat(context).isNotNull();
 	}
 
 }
