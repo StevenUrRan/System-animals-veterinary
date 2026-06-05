@@ -55,7 +55,6 @@ public class Citation extends BaseEntity {
 
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private boolean enable = true;
 
     @ManyToOne(fetch = FetchType.LAZY)

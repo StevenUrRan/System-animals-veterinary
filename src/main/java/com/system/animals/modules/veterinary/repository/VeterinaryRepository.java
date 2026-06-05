@@ -27,4 +27,6 @@ public interface VeterinaryRepository extends JpaRepository<Veterinary, Long>, J
 
     boolean existsByUserNit(Long nit);
 
+    java.util.List<Veterinary> findAllByEnableTrue();
+
 }

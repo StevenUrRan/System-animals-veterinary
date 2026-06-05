@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import com.system.animals.modules.animals.entity.Animals;
 import com.system.animals.modules.citation.dto.CitationCreateDto;
@@ -36,6 +37,13 @@ public interface CitationMapper {
     @Mapping(target = "animalIds", source = "animals")
     @Mapping(target = "historyAnimalsId", source = "historyAnimals.id")
     CitationDto toDto(Citation citation);
+
+    @Mapping(target = "codeUnique", ignore = true)
+    @Mapping(target = "enable", ignore = true)
+    @Mapping(target = "veterinary", ignore = true)
+    @Mapping(target = "animals", ignore = true)
+    @Mapping(target = "historyAnimals", ignore = true)
+    void updateEntityFromDto(CitationCreateDto citationDto, @MappingTarget Citation citation);
 
     default Veterinary mapVeterinaryId(Long veterinaryId) {
         if (veterinaryId == null) {

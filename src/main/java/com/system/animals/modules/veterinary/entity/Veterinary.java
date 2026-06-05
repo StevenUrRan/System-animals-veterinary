@@ -51,7 +51,7 @@ public class Veterinary extends BaseEntity {
     private boolean enable;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     private User user;
 
 }

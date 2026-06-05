@@ -41,7 +41,7 @@ public interface CitationRepository extends JpaRepository<Citation, Long>, JpaSp
 
     Page<Citation> findAllByEnableTrue(Pageable pageable);
 
-    boolean existsByVeterinaryIdAndDateAndTimeAndEnableTrue(Long veterinaryId, LocalDateTime time);
+    boolean existsByVeterinaryIdAndTimeDateAndEnableTrue(Long veterinaryId, LocalDateTime timeDate);
 
     boolean existsByCodeUnique(Long codeUnique);
 
