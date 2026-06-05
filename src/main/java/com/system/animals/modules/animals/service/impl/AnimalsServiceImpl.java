@@ -50,7 +50,6 @@ public class AnimalsServiceImpl implements AnimalsService {
         animals.setEnable(true);
 
         animals.setUser(resolveUserByNit(animalsDto));
-
         Animals save = animalsRepository.save(animals);
         return animalsMapper.toDto(save);
     }
@@ -81,7 +80,7 @@ public class AnimalsServiceImpl implements AnimalsService {
     @Transactional(readOnly = true)
     public boolean existByNit(Long nit) {
         if (nit == null) {
-            return true;
+            return false;
         }
         return !animalsRepository.existsByNit(nit);
     }

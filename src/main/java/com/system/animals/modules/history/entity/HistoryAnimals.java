@@ -29,6 +29,9 @@ import lombok.Setter;
 public class HistoryAnimals extends BaseEntity {
 
     @Column(nullable = false)
+    private Long code;
+
+    @Column(nullable = false)
     private String description;
 
     @Builder.Default

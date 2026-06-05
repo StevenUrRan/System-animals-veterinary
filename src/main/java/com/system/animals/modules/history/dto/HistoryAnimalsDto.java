@@ -11,6 +11,8 @@ import lombok.Builder;
 @Builder
 public record HistoryAnimalsDto(
 
+        Long code,
+
         @NotBlank(message = "{history.background.not-blank}") 
         @Size(min = 8, max = 100, message = "{history.background.size}") 
         String description,

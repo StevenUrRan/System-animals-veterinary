@@ -13,32 +13,18 @@ import jakarta.validation.constraints.Size;
 
 public record AnimalsDto(
 
-        @NotBlank(message = "{animal.name.not-blank}")
-        @Size(min = 2, max = 50, message = "{animal.name.size}")
-        String name,
+                @NotBlank(message = "{animal.name.not-blank}") @Size(min = 2, max = 50, message = "{animal.name.size}") String name,
 
-        @NotNull(message = "{animal.age.not-null}")
-        @Min(value = 0, message = "{animal.age.min}")
-        @Max(value = 100, message = "{animal.age.max}")
-        Integer age,
+                @NotNull(message = "{animal.age.not-null}") @Min(value = 0, message = "{animal.age.min}") @Max(value = 100, message = "{animal.age.max}") Integer age,
 
-        @NotNull(message = "{animal.gender.not-null}")
-        AnimalGender gender,
+                @NotNull(message = "{animal.gender.not-null}") AnimalGender gender,
 
-        @NotNull(message = "{animal.type.not-null}")
-        TypeAnimals type,
+                @NotNull(message = "{animal.type.not-null}") TypeAnimals type,
 
-        @AnimalsNitExist
-        @NotNull(message = "{animal.nit.not-null}")
-        @Min(value = 1000000000L, message = "{animal.nit.min}")
-        @Max(value = 9999999999L, message = "{animal.nit.max}")
-        Long nit,
+                @AnimalsNitExist @NotNull(message = "{animal.nit.not-null}") @Min(value = 1000000000L, message = "{animal.nit.min}") @Max(value = 9999999999L, message = "{animal.nit.max}") Long nit,
 
-        @Size(max = 100, message = "{animal.other-type.size}")
-        String otherTypeAnimals,
+                @Size(max = 100, message = "{animal.other-type.size}") String otherTypeAnimals,
 
-        @NotNull(message = "{animal.user.not-null}")
-        UserResponseDto userDto) {
-
+                @NotNull(message = "{animal.user.not-null}") UserResponseDto userDto) {
 
 }

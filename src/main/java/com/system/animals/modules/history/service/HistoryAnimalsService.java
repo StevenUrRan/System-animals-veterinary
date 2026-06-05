@@ -11,12 +11,12 @@ public interface HistoryAnimalsService {
 
     Page<HistoryAnimalsDto> findAll(Pageable pageable);
 
-    Optional<HistoryAnimalsDto> findByHistoryId(Long animalsid);
+    Optional<HistoryAnimalsDto> findByHistoryId(Long code);
 
     HistoryAnimalsDto newHistoryAnimalsDto(HistoryAnimalsDto historyAnimalsDto);
 
-    HistoryAnimalsDto updateHistoryAnimalsDto(Long animalId,HistoryAnimalsDto historyAnimalsDto);
+    HistoryAnimalsDto updateHistoryAnimalsDto(Long code,HistoryAnimalsDto historyAnimalsDto);
 
-    void deleteHistoryAnimal(Long animalsId);
+    void deleteHistoryAnimal(Long code);
 
 }

@@ -19,6 +19,7 @@ public interface HistoryAnimalsMapper {
     @Mapping(target = "animals", source = "animalId")
     @Mapping(target = "citations", source = "citationIds")
     @Mapping(target = "enable", ignore = true)
+    @Mapping(target = "code", ignore = true)
     HistoryAnimals toEntity(HistoryAnimalsDto historyAnimalsDto);
 
     @Mapping(target = "animalId", source = "animals.id")

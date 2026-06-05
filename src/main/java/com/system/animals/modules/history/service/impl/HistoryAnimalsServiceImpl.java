@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.system.animals.exception.AnimalsNotFoundException;
 import com.system.animals.exception.HistoryAlreadyExistsException;
 import com.system.animals.exception.HistoryAnimalsNotFound;
+import com.system.animals.exception.HistoryAnimalsNotFoundException;
 import com.system.animals.exception.ValueDuplicateException;
 import com.system.animals.modules.animals.entity.Animals;
 import com.system.animals.modules.animals.repository.AnimalsRepository;
@@ -22,6 +23,7 @@ import com.system.animals.modules.history.entity.HistoryAnimals;
 import com.system.animals.modules.history.mapper.HistoryAnimalsMapper;
 import com.system.animals.modules.history.repository.HistoryAnimalsRepository;
 import com.system.animals.modules.history.service.HistoryAnimalsService;
+import com.system.animals.shared.utils.CodeGenerator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HistoryAnimalsServiceImpl implements HistoryAnimalsService {
 
+    private final CodeGenerator codeGenerator;
     private final HistoryAnimalsMapper historyAnimalsMapper;
     private final HistoryAnimalsRepository historyAnimalsRepository;
     private final AnimalsRepository animalsRepository;
@@ -39,6 +42,7 @@ public class HistoryAnimalsServiceImpl implements HistoryAnimalsService {
     public Page<HistoryAnimalsDto> findAll(Pageable pageable) {
         Page<HistoryAnimals> toEntity = historyAnimalsRepository.findAllByEnableTrue(pageable);
         return toEntity.map(history -> new HistoryAnimalsDto(
+                history.getCode(),
                 history.getDescription(),
                 history.getAnimals().getId(),
                 history.getCitations().stream().map(h -> h.getId()).collect(Collectors.toSet())));
@@ -61,17 +65,26 @@ public class HistoryAnimalsServiceImpl implements HistoryAnimalsService {
     @Transactional
     public HistoryAnimalsDto newHistoryAnimalsDto(HistoryAnimalsDto historyAnimalsDto) {
 
-        HistoryAnimals historyAnimals = historyAnimalsMapper.toEntity(historyAnimalsDto);
+        Long codeGenerate;
+        boolean exist;
 
-        Animals animals = animalsRepository.findByNitAndEnableTrue(historyAnimals.getAnimals().getNit())
+        Animals animals = animalsRepository.findByNitAndEnableTrue(historyAnimalsDto.animalId())
                 .orElseThrow(AnimalsNotFoundException::new);
 
-        if (historyAnimalsRepository.existsByAnimalsId(historyAnimals.getAnimals().getNit())) {
+        if (historyAnimalsRepository.existsByAnimalsId(animals.getId())) {
             throw new HistoryAlreadyExistsException();
         }
 
+        HistoryAnimals historyAnimals = historyAnimalsMapper.toEntity(historyAnimalsDto);
+
+        do {
+            codeGenerate = codeGenerator.generateUniqueCode();
+            exist = citationRepository.existsByCodeUnique(codeGenerate);
+        } while (exist);
+
         Set<Citation> citation = citationRepository.findByCodeUniqueInAndEnableTrue(historyAnimalsDto.citationIds());
         historyAnimals.setCitations(citation);
+
         historyAnimals.setAnimals(animals);
 
         return historyAnimalsMapper.toDto(historyAnimalsRepository.save(historyAnimals));
@@ -79,21 +92,19 @@ public class HistoryAnimalsServiceImpl implements HistoryAnimalsService {
 
     @Override
     @Transactional
-    public HistoryAnimalsDto updateHistoryAnimalsDto(Long animalId, HistoryAnimalsDto historyAnimalsDto) {
+    public HistoryAnimalsDto updateHistoryAnimalsDto(Long code, HistoryAnimalsDto historyAnimalsDto) {
 
-        HistoryAnimals history = historyAnimalsMapper.toEntity(historyAnimalsDto);
-
-        HistoryAnimals historyAnimals = historyAnimalsRepository.findByAnimalsIdAndEnableTrue(animalId)
-                .orElseThrow(HistoryAnimalsNotFound::new);
-
-        Animals animals = animalsRepository.findByNitAndEnableTrue(history.getAnimals().getNit())
+        HistoryAnimals historyAnimals = historyAnimalsRepository
+                .findByCodeAndEnableTrue(code).orElseThrow(HistoryAnimalsNotFoundException::new);
+        Animals animals = animalsRepository.findByNitAndEnableTrue(historyAnimalsDto.animalId())
                 .orElseThrow(AnimalsNotFoundException::new);
 
-        if (animals.getNit() == history.getAnimals().getNit()) {
+        HistoryAnimals history = historyAnimalsMapper.toEntity(historyAnimalsDto);
+        if (!animals.getNit().equals(history.getAnimals().getNit())) {
             throw new ValueDuplicateException();
         }
 
-        historyAnimals.setDescription(historyAnimals.getDescription());
+        historyAnimals.setDescription(history.getDescription());
         historyAnimals.setAnimals(animals);
 
         return historyAnimalsMapper.toDto(historyAnimalsRepository.save(historyAnimals));
@@ -102,10 +113,10 @@ public class HistoryAnimalsServiceImpl implements HistoryAnimalsService {
 
     @Override
     @Transactional
-    public void deleteHistoryAnimal(Long animalsId) {
+    public void deleteHistoryAnimal(Long code) {
 
-        HistoryAnimals historyAnimals = historyAnimalsRepository.findByAnimalsId(animalsId)
-                .orElseThrow(AnimalsNotFoundException::new);
+        HistoryAnimals historyAnimals = historyAnimalsRepository.findByCodeAndEnableTrue(code)
+                .orElseThrow(HistoryAnimalsNotFoundException::new);
 
         historyAnimals.setEnable(false);
         historyAnimalsRepository.save(historyAnimals);

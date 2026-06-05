@@ -18,6 +18,8 @@ public interface HistoryAnimalsRepository
 
     Optional<HistoryAnimals> findByAnimalsIdAndEnableTrue(Long animalId);
 
+    Optional<HistoryAnimals> findByCodeAndEnableTrue(Long code);
+
     boolean existsByAnimalsId(Long animalId);
 
     Page<HistoryAnimals> findAllByEnableTrue(Pageable pageable);
